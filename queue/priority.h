@@ -1,15 +1,15 @@
-#include <stdlib.h>
-typedef struct {
-  char *username;
-  char *password;
-} User;
+#ifndef USER
+#define USER
+#include "user.h"
+#endif
 
 typedef struct {
   int size;
-  User users[];
+  UserPQ p_users[5];
 } PriorityQueue;
 
-void printQueue(PriorityQueue *pq);
-int enqueue(PriorityQueue *pq, User *user);
-User dequeue(PriorityQueue *pq);
-PriorityQueue newPriorityQueue();
+PriorityQueue newPriorityQueue(void);
+void printPriority(PriorityQueue *pq);
+int enqueuePQ(PriorityQueue *pq, UserPQ user);
+UserPQ dequeuePQ(PriorityQueue *pq);
+int comparator(const void *a, const void *b);

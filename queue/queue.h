@@ -1,7 +1,7 @@
-typedef struct {
-  char *username;
-  char *password;
-} User;
+#ifndef USER
+#define USER
+#include "user.h"
+#endif
 
 typedef struct {
   int size;
