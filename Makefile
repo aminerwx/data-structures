@@ -5,6 +5,7 @@ CC=gcc
 BINARY=bin/$(APP_NAME)
 
 all: queue.o main.o
+	@mkdir -p bin
 	@$(CC) $(CFLAGS) $(wildcard *.o) -o $(BINARY) 
 	@rm -f *.o
 
