@@ -1,4 +1,5 @@
 #include "priority.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 // This is a naive implementation
@@ -16,6 +17,13 @@ int comparator(const void *a, const void *b) {
   return (user_b->priority - user_a->priority);
 }
 
+void printPriority(PriorityQueue *pq) {
+  for (int i = 0; i < 5; i++) {
+    printf("[%d] %s %s %d\n", i, pq->p_users[i].username,
+           pq->p_users[i].password, pq->p_users[i].priority);
+  }
+}
+
 int enqueuePQ(PriorityQueue *pq, UserPQ user) {
   if (pq->size > 5) {
     return 1;
@@ -26,6 +34,21 @@ int enqueuePQ(PriorityQueue *pq, UserPQ user) {
           comparator);
   }
   return 0;
+}
+
+UserPQ dequeuePQ(PriorityQueue *pq) {
+  if (!pq->size) {
+    UserPQ u = {0};
+    return u;
+  }
+  UserPQ u = pq->p_users[0];
+  UserPQ empty = {0};
+  for (int i = 0; i < 4; i++) {
+    pq->p_users[i] = pq->p_users[i + 1];
+  }
+  pq->p_users[4] = empty;
+  pq->size--;
+  return u;
 }
 
 PriorityQueue newPriorityQueue(void) {
