@@ -1,11 +1,14 @@
 #include "priority.h"
 #include <stdlib.h>
 
-PriorityQueue newPriorityQueue(void) {
-  PriorityQueue pq = {0};
-  pq.size = 0;
-  return pq;
-}
+// This is a naive implementation
+// priority is based on a sorted array where:
+//  enqueue: O(N)
+//  dequeue: O(1)
+
+//  TODO: Heap-based implementation
+//  enqueue: O(logN)
+//  dequeue: O(logN)
 
 int comparator(const void *a, const void *b) {
   UserPQ *user_a = (UserPQ *)a;
@@ -23,4 +26,10 @@ int enqueuePQ(PriorityQueue *pq, UserPQ user) {
           comparator);
   }
   return 0;
+}
+
+PriorityQueue newPriorityQueue(void) {
+  PriorityQueue pq = {0};
+  pq.size = 0;
+  return pq;
 }

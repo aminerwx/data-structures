@@ -8,8 +8,8 @@ typedef struct {
   UserPQ p_users[5];
 } PriorityQueue;
 
-PriorityQueue newPriorityQueue(void);
 void printPriority(PriorityQueue *pq);
+int comparator(const void *a, const void *b);
 int enqueuePQ(PriorityQueue *pq, UserPQ user);
 UserPQ dequeuePQ(PriorityQueue *pq);
-int comparator(const void *a, const void *b);
+PriorityQueue newPriorityQueue(void);
