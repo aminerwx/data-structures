@@ -56,3 +56,23 @@ PriorityQueue newPriorityQueue(void) {
   pq.size = 0;
   return pq;
 }
+
+void priorityQueue(void) {
+  PriorityQueue pq = newPriorityQueue();
+  UserPQ user1 = {"user1", "pwd1", 10};
+  UserPQ user2 = {"user2", "pwd2", 2};
+  UserPQ user3 = {"user3", "pwd3", 99};
+  UserPQ user4 = {"user4", "pwd4", 2};
+  UserPQ user5 = {"user5", "pwd5", 47};
+
+  printf("enqueuePQ\n");
+  enqueuePQ(&pq, user1);
+  enqueuePQ(&pq, user2);
+  enqueuePQ(&pq, user3);
+  enqueuePQ(&pq, user4);
+  enqueuePQ(&pq, user5);
+  printPriority(&pq);
+  dequeuePQ(&pq);
+  printf("dequeuePQ\n");
+  printPriority(&pq);
+}
