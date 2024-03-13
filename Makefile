@@ -1,5 +1,5 @@
 APP_NAME=data-structures
-CFLAGS= -Wall -Wextra -std=c2x -g
+CFLAGS= -Wall -Wextra -std=c2x -fsanitize=address -g
 QUEUE_MODULE=queue
 CC=gcc
 BINARY=bin/$(APP_NAME)
@@ -24,3 +24,6 @@ clean:
 
 run: clean all
 	@./$(BINARY)
+
+debug:
+	@gdb ./$(BINARY)

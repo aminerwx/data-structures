@@ -1,16 +1,20 @@
+#include <stdlib.h>
 #ifndef USER
 #define USER
-#include "user.h"
+#include "../user/user.h"
 #endif
 
 typedef struct {
-  int size;
-  UserPQ p_users[5];
+  size_t length;
+  size_t capacity;
+  UserPQ *items;
 } PriorityQueue;
 
-void priorityQueue(void);
-void printPriority(PriorityQueue *pq);
-int comparator(const void *a, const void *b);
+int is_empty_pq(PriorityQueue *pq);
+int priority_cmp(const void *a, const void *b);
 int enqueuePQ(PriorityQueue *pq, UserPQ user);
 UserPQ dequeuePQ(PriorityQueue *pq);
-PriorityQueue newPriorityQueue(void);
+void init_pq(PriorityQueue *pq, size_t capacity);
+void free_pq(PriorityQueue *pq);
+void printPriority(PriorityQueue *pq);
+void priorityQueue_runner(void);

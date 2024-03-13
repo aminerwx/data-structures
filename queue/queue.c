@@ -1,61 +1,72 @@
 #include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-Queue newQueue(void) {
-  Queue q;
-  q.size = 0;
-  for (int i = 0; i < 10; i++) {
-    q.users[i] = NULL;
+void init_queue(Queue *queue, size_t capacity) {
+  queue->length = 0;
+  queue->capacity = capacity;
+  queue->items = calloc(capacity, sizeof(User));
+}
+void free_queue(Queue *queue) { free(queue->items); }
+
+int is_empty_queue(Queue *queue) { return queue->length ? 0 : 1; }
+
+int enqueue(Queue *queue, User user) {
+  if (queue->length == queue->capacity) {
+    printf("Enqueue error: queue capacity reached.\n");
+    return 1;
   }
-  return q;
+  queue->items[queue->length++] = user;
+  printf("=> Enqueued User{ %s, %s }\n", user.username, user.password);
+  return 0;
 }
 
-int enqueue(Queue *queue, User *user) {
-  if (queue->size < 10) {
-    int i = queue->size;
-    queue->users[i] = user;
-    //    queue->users[i] = user->password;
-    queue->size++;
-    printf("Enqueued User{ %s, %s }\n", user->username, user->password);
-    return 0;
+User dequeue(Queue *queue) {
+  if (is_empty_queue(queue)) {
+    printf("Queue is empty, nothing to dequeue.\n");
+    return (User){0};
   }
-  return 1;
+  User head = queue->items[0];
+  for (size_t i = 0; i < queue->length - 1; i++) {
+    queue->items[i] = queue->items[i + 1];
+  }
+  queue->items[--(queue->length)] = (User){0};
+  return head;
 }
 
-User *dequeue(Queue *queue) {
-  if (queue->size > 0 && queue->size < 10) {
-    User *user = queue->users[0];
-    for (int i = 0; i < queue->size + 1; i++) {
-      queue->users[i] = queue->users[i + 1];
-    }
-    queue->size--;
-    return user;
+void printQueue(Queue *queue) {
+  printf("\n");
+  for (size_t i = 0; i < queue->length; i++) {
+    printf("[%lu] %s %s\n", i, queue->items[i].username,
+           queue->items[i].password);
   }
-  return NULL;
+  printf("\n=> Queue: len = %lu, cap = %lu\n", queue->length, queue->capacity);
 }
 
-void printQueue(Queue q) {
-  printf("Queue[%d] = {\n", q.size);
-  for (int i = 0; i < q.size; i++) {
-    printf("\tUser[%d]: %s, %s\n", i, q.users[i]->username,
-           q.users[i]->password);
-  }
-  printf("}\n");
+void queue_runner(void) {
+  printf("\n\t\t[#]  Queue  [#]\n");
+  Queue users_queue = {0};
+  init_queue(&users_queue, 5);
+
+  User user1 = {"user1", "pwd1"};
+  User user2 = {"user2", "pwd2"};
+  User user3 = {"user3", "pwd3"};
+  enqueue(&users_queue, user1);
+  enqueue(&users_queue, user2);
+  enqueue(&users_queue, user3);
+
+  printQueue(&users_queue);
+
+  User dequeued_user = dequeue(&users_queue);
+  printf("\n=> Dequeued User{ %s, %s }\n\n", dequeued_user.username,
+         dequeued_user.password);
+
+  printQueue(&users_queue);
+
+  User peeked_user = peek(&users_queue);
+  printf("\n=> Peeked User{ %s, %s }\n\n", peeked_user.username,
+         peeked_user.password);
+  free_queue(&users_queue);
 }
 
-void queue(void) {
-  Queue q = newQueue();
-  User user = {"aminerwx", "123123"};
-  int status = enqueue(&q, &user);
-  if (status == 0) {
-    printQueue(q);
-  }
-
-  User *dq = dequeue(&q);
-  printf("Dequeued User{ %s, %s }\n", dq->username, dq->password);
-  printQueue(q);
-}
-
-User *peek(Queue *queue) { return queue->size == 0 ? NULL : queue->users[0]; }
+User peek(Queue *queue) { return queue->length ? queue->items[0] : (User){0}; }

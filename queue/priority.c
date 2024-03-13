@@ -11,68 +11,80 @@
 //  enqueue: O(logN)
 //  dequeue: O(logN)
 
-int comparator(const void *a, const void *b) {
-  UserPQ *user_a = (UserPQ *)a;
-  UserPQ *user_b = (UserPQ *)b;
-  return (user_b->priority - user_a->priority);
-}
+int is_empty_pq(PriorityQueue *pq) { return pq->length ? 0 : 1; }
 
-void printPriority(PriorityQueue *pq) {
-  for (int i = 0; i < 5; i++) {
-    printf("[%d] %s %s %d\n", i, pq->p_users[i].username,
-           pq->p_users[i].password, pq->p_users[i].priority);
-  }
+int priority_cmp(const void *a, const void *b) {
+  return (((UserPQ *)b)->priority - ((UserPQ *)a)->priority);
 }
 
 int enqueuePQ(PriorityQueue *pq, UserPQ user) {
-  if (pq->size > 5) {
+  if (pq->length == pq->capacity) {
     return 1;
   }
-  pq->p_users[pq->size++] = user;
-  if (pq->size > 1) {
-    qsort(pq->p_users, sizeof(pq->p_users) / sizeof(UserPQ), sizeof(UserPQ),
-          comparator);
+  pq->items[pq->length++] = user;
+  if (pq->length >= 1) {
+    qsort((void *)pq->items, pq->length, sizeof(UserPQ), priority_cmp);
   }
+  printf("=> Enqueued User{ %s, %s, %lu }\n", user.username, user.password,
+         user.priority);
   return 0;
 }
 
 UserPQ dequeuePQ(PriorityQueue *pq) {
-  if (!pq->size) {
-    UserPQ u = {0};
-    return u;
+  if (is_empty_pq(pq)) {
+    printf("Queue is empty, nothing to dequeue.\n");
+    return (UserPQ){0};
   }
-  UserPQ u = pq->p_users[0];
-  UserPQ empty = {0};
-  for (int i = 0; i < 4; i++) {
-    pq->p_users[i] = pq->p_users[i + 1];
+
+  UserPQ head = pq->items[0];
+  for (size_t i = 0; i < pq->length - 1; i++) {
+    pq->items[i] = pq->items[i + 1];
   }
-  pq->p_users[4] = empty;
-  pq->size--;
-  return u;
+  pq->items[--(pq->length)] = (UserPQ){0};
+  return head;
 }
 
-PriorityQueue newPriorityQueue(void) {
+void init_pq(PriorityQueue *pq, size_t capacity) {
+  pq->length = 0;
+  pq->capacity = capacity;
+  pq->items = calloc(capacity, sizeof(UserPQ));
+}
+
+void free_pq(PriorityQueue *pq) { free(pq->items); }
+
+void printPriority(PriorityQueue *pq) {
+  printf("\n");
+  for (size_t i = 0; i < pq->length; i++) {
+    printf("[%lu] %s %s %lu\n", i, pq->items[i].username, pq->items[i].password,
+           pq->items[i].priority);
+  }
+  printf("\n=> Priority Queue: len = %lu, cap = %lu\n", pq->length,
+         pq->capacity);
+}
+
+void priorityQueue_runner(void) {
+  printf("\n\t\t[#]  Priority Queue  [#]\n");
   PriorityQueue pq = {0};
-  pq.size = 0;
-  return pq;
-}
+  size_t capacity = 5;
+  init_pq(&pq, capacity);
 
-void priorityQueue(void) {
-  PriorityQueue pq = newPriorityQueue();
   UserPQ user1 = {"user1", "pwd1", 10};
   UserPQ user2 = {"user2", "pwd2", 2};
   UserPQ user3 = {"user3", "pwd3", 99};
   UserPQ user4 = {"user4", "pwd4", 2};
   UserPQ user5 = {"user5", "pwd5", 47};
-
-  printf("enqueuePQ\n");
   enqueuePQ(&pq, user1);
   enqueuePQ(&pq, user2);
   enqueuePQ(&pq, user3);
   enqueuePQ(&pq, user4);
   enqueuePQ(&pq, user5);
+
   printPriority(&pq);
+
   dequeuePQ(&pq);
-  printf("dequeuePQ\n");
+  dequeuePQ(&pq);
+  dequeuePQ(&pq);
   printPriority(&pq);
+
+  free_pq(&pq);
 }

@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 typedef struct {
   char *username;
   char *password;
@@ -6,5 +8,5 @@ typedef struct {
 typedef struct {
   char *username;
   char *password;
-  unsigned int priority;
+  size_t priority;
 } UserPQ;
