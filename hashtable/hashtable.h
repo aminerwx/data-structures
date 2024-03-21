@@ -26,4 +26,5 @@ void ht_destroy(HashTable *ht);
 void ht_put(HashTable *ht, Item book);
 void ht_remove(HashTable *ht, Item book);
 void ht_print(HashTable *ht);
+float ht_load_factor(HashTable *ht);
 Item ht_get(HashTable *ht, const char *key);

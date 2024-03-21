@@ -61,15 +61,6 @@ void ht_remove(HashTable *ht, Item item) {
   }
 }
 
-Item ht_get(HashTable *ht, const char *key) {
-  for (unsigned i = 0; i < ht->length; i++) {
-    if (ht->items[i].key == key) {
-      return ht->items[i];
-    }
-  }
-  return (Item){0};
-}
-
 void ht_print(HashTable *ht) {
   for (unsigned i = 0; i < ht->capacity; i++) {
     if (ht->items[i].value) {
@@ -79,4 +70,17 @@ void ht_print(HashTable *ht) {
       printf("[%u] { %s: %p }\n", i, ht->items[i].key, ht->items[i].value);
     }
   }
+}
+
+float ht_load_factor(HashTable *ht) {
+  return (float)ht->length / (float)ht->capacity;
+}
+
+Item ht_get(HashTable *ht, const char *key) {
+  for (unsigned i = 0; i < ht->length; i++) {
+    if (ht->items[i].key == key) {
+      return ht->items[i];
+    }
+  }
+  return (Item){0};
 }
