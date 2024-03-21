@@ -26,4 +26,4 @@ void ht_destroy(HashTable *ht);
 void ht_put(HashTable *ht, Item book);
 void ht_remove(HashTable *ht, Item book);
 void ht_print(HashTable *ht);
-Item ht_get(HashTable *ht, unsigned index);
+Item ht_get(HashTable *ht, const char *key);

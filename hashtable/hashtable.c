@@ -61,8 +61,13 @@ void ht_remove(HashTable *ht, Item item) {
   }
 }
 
-Item ht_get(HashTable *ht, unsigned index) {
-  return ht->items[index].key ? ht->items[index] : (Item){0};
+Item ht_get(HashTable *ht, const char *key) {
+  for (unsigned i = 0; i < ht->length; i++) {
+    if (ht->items[i].key == key) {
+      return ht->items[i];
+    }
+  }
+  return (Item){0};
 }
 
 void ht_print(HashTable *ht) {
