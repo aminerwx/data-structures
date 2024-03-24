@@ -46,23 +46,3 @@ void print_stack(Stack *stack) {
   }
   printf("\n=> Stack: len = %lu, cap = %lu\n", stack->length, stack->capacity);
 }
-
-void stack_runner(void) {
-  printf("\n\t\t[#]  Stack  [#]\n");
-  Stack stack = {0};
-  init_stack(&stack, 5);
-
-  User user1 = {.username = "username1", .password = "pwd1"};
-  push(&stack, user1);
-
-  User user2 = {.username = "username2", .password = "pwd2"};
-  push(&stack, user2);
-
-  print_stack(&stack);
-
-  User popped_user = pop(&stack);
-  printf("Popped user: { %s, %s }\n", popped_user.username,
-         popped_user.password);
-  print_stack(&stack);
-  free_stack(&stack);
-}

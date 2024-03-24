@@ -2,7 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-node_t *ll_create(void) { return (node_t *)calloc(1, sizeof(node_t)); }
+node_t *ll_create(char *data) {
+  node_t *new = (node_t *)calloc(1, sizeof(node_t));
+  new->data = data;
+  return new;
+}
 
 void ll_print(node_t *head) {
   if (head == NULL) {
@@ -27,8 +31,7 @@ void ll_free(node_t *head) {
 }
 
 void ll_insert_begin(node_t **head, char *data) {
-  node_t *new = ll_create();
-  new->data = data;
+  node_t *new = ll_create(data);
   new->next = *head;
   new->size = (*head)->size + 1;
   *head = new;
@@ -43,11 +46,10 @@ void ll_insert_end(node_t *head, char *data) {
     while (current->next != NULL) {
       current = current->next;
     }
-    current->next = ll_create();
+    current->next = ll_create(data);
     if (current == NULL) {
       return;
     }
-    current->next->data = data;
     head->size++;
   }
 }

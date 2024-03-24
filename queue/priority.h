@@ -17,4 +17,3 @@ UserPQ dequeuePQ(PriorityQueue *pq);
 void init_pq(PriorityQueue *pq, size_t capacity);
 void free_pq(PriorityQueue *pq);
 void printPriority(PriorityQueue *pq);
-void priorityQueue_runner(void);

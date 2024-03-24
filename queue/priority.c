@@ -61,30 +61,3 @@ void printPriority(PriorityQueue *pq) {
   printf("\n=> Priority Queue: len = %lu, cap = %lu\n", pq->length,
          pq->capacity);
 }
-
-void priorityQueue_runner(void) {
-  printf("\n\t\t[#]  Priority Queue  [#]\n");
-  PriorityQueue pq = {0};
-  size_t capacity = 5;
-  init_pq(&pq, capacity);
-
-  UserPQ user1 = {"user1", "pwd1", 10};
-  UserPQ user2 = {"user2", "pwd2", 2};
-  UserPQ user3 = {"user3", "pwd3", 99};
-  UserPQ user4 = {"user4", "pwd4", 2};
-  UserPQ user5 = {"user5", "pwd5", 47};
-  enqueuePQ(&pq, user1);
-  enqueuePQ(&pq, user2);
-  enqueuePQ(&pq, user3);
-  enqueuePQ(&pq, user4);
-  enqueuePQ(&pq, user5);
-
-  printPriority(&pq);
-
-  dequeuePQ(&pq);
-  dequeuePQ(&pq);
-  dequeuePQ(&pq);
-  printPriority(&pq);
-
-  free_pq(&pq);
-}

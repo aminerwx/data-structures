@@ -9,7 +9,6 @@ typedef struct {
   User *items;
 } Queue;
 
-void queue_runner(void);
 void printQueue(Queue *queue);
 int is_empty_queue(Queue *queue);
 int enqueue(Queue *queue, User user);

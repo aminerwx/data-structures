@@ -43,30 +43,4 @@ void printQueue(Queue *queue) {
   printf("\n=> Queue: len = %lu, cap = %lu\n", queue->length, queue->capacity);
 }
 
-void queue_runner(void) {
-  printf("\n\t\t[#]  Queue  [#]\n");
-  Queue users_queue = {0};
-  init_queue(&users_queue, 5);
-
-  User user1 = {"user1", "pwd1"};
-  User user2 = {"user2", "pwd2"};
-  User user3 = {"user3", "pwd3"};
-  enqueue(&users_queue, user1);
-  enqueue(&users_queue, user2);
-  enqueue(&users_queue, user3);
-
-  printQueue(&users_queue);
-
-  User dequeued_user = dequeue(&users_queue);
-  printf("\n=> Dequeued User{ %s, %s }\n\n", dequeued_user.username,
-         dequeued_user.password);
-
-  printQueue(&users_queue);
-
-  User peeked_user = peek(&users_queue);
-  printf("\n=> Peeked User{ %s, %s }\n\n", peeked_user.username,
-         peeked_user.password);
-  free_queue(&users_queue);
-}
-
 User peek(Queue *queue) { return queue->length ? queue->items[0] : (User){0}; }

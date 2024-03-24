@@ -16,4 +16,3 @@ User pop(Stack *stack);
 void init_stack(Stack *stack, size_t capacity);
 void free_stack(Stack *stack);
 void print_stack(Stack *stack);
-void stack_runner(void);
